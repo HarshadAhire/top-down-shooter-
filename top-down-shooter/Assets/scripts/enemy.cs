@@ -8,7 +8,7 @@ public class enemy : MonoBehaviour
     private int currentWIn = 0;
     public float detectionRange = 5f;
     public Transform player;
-
+    public float Distance;
     public void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -16,10 +16,11 @@ public class enemy : MonoBehaviour
 
     private void Update()
     {
+        if (player == null) return;
+        Distance = Vector2.Distance(transform.position, player.position);
+    
 
-        float Distance = Vector2.Distance(transform.position, player.position);
-
-        if(Distance < detectionRange)
+        if (Distance < detectionRange)
         {
             chaseplayer();
         }
@@ -32,6 +33,7 @@ public class enemy : MonoBehaviour
 
     public void chaseplayer()
     {
+        if (player == null) return;
         Vector2 direction = (player.position - transform.position).normalized;
         transform.position += (Vector3)direction * speed * Time.deltaTime;
     }
@@ -47,10 +49,14 @@ public class enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-       if( collision.collider.CompareTag("bullet")){
-            Destroy(gameObject);
-        }
+        
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                collision.gameObject.GetComponent<health>().TakeDamage(50);
+            }
+      
+       
     }
 
-    
+
 }

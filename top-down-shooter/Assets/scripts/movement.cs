@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    public Rigidbody2D rb;
-    float speed = 10f;
+   private Rigidbody2D rb;
+    public float speed = 5f;
     Vector2 move;
     Vector2 mousepos;
     public Camera cam;
